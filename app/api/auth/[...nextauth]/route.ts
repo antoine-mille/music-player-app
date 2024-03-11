@@ -6,7 +6,7 @@ export const authOptions: AuthOptions = {
   providers: [
     SpotifyProvider({
       authorization:
-        "https://accounts.spotify.com/authorize?scope=user-library-read,user-read-playback-state,user-read-currently-playing",
+        "https://accounts.spotify.com/authorize?scope=user-library-read,user-read-playback-state,user-read-currently-playing,streaming,user-modify-playback-state,user-read-private",
       clientId: process.env.SPOTIFY_CLIENT_ID!,
       clientSecret: process.env.SPOTIFY_CLIENT_SECRET!,
     }),
@@ -24,6 +24,7 @@ export const authOptions: AuthOptions = {
     },
     async jwt({ token, account }) {
       if (account) {
+        console.log(account.scope)
         token.accessToken = account.access_token as string
         token.refreshToken = account.refreshToken as string
       }
