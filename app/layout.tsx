@@ -1,7 +1,9 @@
+/* eslint-disable tailwindcss/no-custom-classname */
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
-import { NextAuthProvider } from "@/components"
+import { LeftSidebar, NextAuthProvider } from "@/components"
+import { cn } from "@/lib/utils"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -17,8 +19,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr">
-      <body className={inter.className}>
-        <NextAuthProvider>{children}</NextAuthProvider>
+      <body className={cn("h-screen", inter.className)}>
+        <NextAuthProvider>
+          <div className="grid-parent h-full">
+            <div className="left-sidebar h-full bg-[#FAFAFA]">
+              <LeftSidebar />
+            </div>
+            <div className="content">{children}</div>
+            <div className="right-sidebar"></div>
+          </div>
+        </NextAuthProvider>
       </body>
     </html>
   )
