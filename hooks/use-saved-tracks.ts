@@ -2,7 +2,7 @@ import { getSpotifyWebApi } from "@/lib/spotify"
 import { useSession } from "next-auth/react"
 import { useEffect, useState } from "react"
 
-const useSavedTracks = () => {
+const useSavedTracks = (limit: number) => {
   const { data: session } = useSession()
   const [tracks, setTracks] = useState<SpotifyApi.TrackObjectFull[]>([])
 
@@ -11,14 +11,14 @@ const useSavedTracks = () => {
       if (session) {
         const { accessToken, refreshToken } = session.token
         const spotifyApi = getSpotifyWebApi(accessToken, refreshToken)
-        const response = await spotifyApi.getMySavedTracks({ limit: 10 })
+        const response = await spotifyApi.getMySavedTracks({ limit })
         const tracks = response.body.items.map((item) => item.track)
         setTracks(tracks)
       }
     }
 
     fetchSavedTracks()
-  }, [session])
+  }, [session, limit])
 
   return tracks
 }
