@@ -12,6 +12,7 @@ export { MusicImage } from "./MusicImage"
 // Layouts
 export { LeftSidebar } from "./layouts"
 export { MusicCard } from "./layouts"
+export { RowMusicCard } from "./layouts"
 
 // Icons
 export { ExplorerIcon } from "./icons"

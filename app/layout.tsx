@@ -1,4 +1,3 @@
-/* eslint-disable tailwindcss/no-custom-classname */
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
