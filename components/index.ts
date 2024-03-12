@@ -6,6 +6,7 @@ export { Logo } from "./Logo"
 export { UserIcon } from "./UserIcon"
 export { SelectedIcon } from "./SelectedIcon"
 export { Door } from "./Door"
+export { NavigationLink } from "./NavigationLink"
 
 // Layouts
 export { LeftSidebar } from "./layouts"

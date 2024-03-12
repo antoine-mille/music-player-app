@@ -2,12 +2,11 @@
 
 import {
   Door,
-  DoorIcon,
   ExplorerIcon,
   LikeIcon,
   Logo,
   MusicIcon,
-  SelectedIcon,
+  NavigationLink,
   UserIcon,
 } from "@/components"
 import { signIn, signOut, useSession } from "next-auth/react"
@@ -25,6 +24,13 @@ const LeftSidebar = () => {
     }
   }
 
+  // Navigation links
+  const links = [
+    { href: "/explore", icon: ExplorerIcon },
+    { href: "/musics", icon: MusicIcon },
+    { href: "/favorites", icon: LikeIcon },
+  ]
+
   return (
     <div className="flex h-full flex-col items-center justify-between gap-6 py-6">
       <div className="flex flex-col items-center">
@@ -35,9 +41,9 @@ const LeftSidebar = () => {
           )}
         </div>
         <div className="flex flex-col items-center gap-2 py-6">
-          <ExplorerIcon />
-          <SelectedIcon icon={MusicIcon} />
-          <LikeIcon />
+          {links.map((link) => (
+            <NavigationLink key={link.href} href={link.href} icon={link.icon} />
+          ))}
         </div>
       </div>
       <Door handleClick={handleClick} />
