@@ -1,14 +1,17 @@
+"use client"
+
 import { MusicImage } from "@/components"
 
 type MusicCardProps = {
   track: SpotifyApi.TrackObjectFull
+  handleClick: (track: SpotifyApi.TrackObjectFull) => void
 }
 
-const MusicCard = ({ track }: MusicCardProps) => {
+const MusicCard = ({ track, handleClick }: MusicCardProps) => {
   const releaseYear = track.album.release_date.split("-")[0]
 
   return (
-    <div className="max-w-32 cursor-pointer">
+    <div className="max-w-32 cursor-pointer" onClick={() => handleClick(track)}>
       <MusicImage track={track} />
       <div className="p-1">
         <p className="text-sm font-medium text-gray-900">{track.name}</p>

@@ -1,11 +1,29 @@
 "use client"
 
-import { MusicCard, RowMusicCard } from "@/components"
+import { MainMusic, MusicCard, RowMusicCard } from "@/components"
 import { useSavedTracks } from "@/hooks/use-saved-tracks"
+import { useTrack } from "@/hooks/use-track"
+import { useTrackStore } from "@/stores/track.store"
 
 export default function Page() {
   // Fetch 4 saved tracks from the user
   const tracks = useSavedTracks(6)
+
+  // Get the playTrack function from the useTrack hook
+  const { playTrack } = useTrack()
+
+  // Get the setTrack function from the track store
+  const setTrack = useTrackStore((state) => state.setTrack)
+
+  const handleClick = (track: SpotifyApi.TrackObjectFull) => {
+    playTrack(track).then((success) => {
+      if (!success) {
+        console.error("Error playing track")
+        return
+      }
+      setTrack(track)
+    })
+  }
 
   return (
     <main className="flex h-screen">
@@ -19,7 +37,11 @@ export default function Page() {
           <h2 className="font-semibold text-gray-900">Your songs</h2>
           <div className="mt-6 flex flex-wrap gap-3">
             {tracks.slice(0, 4).map((track) => (
-              <MusicCard key={track.id} track={track} />
+              <MusicCard
+                key={track.id}
+                track={track}
+                handleClick={handleClick}
+              />
             ))}
           </div>
         </section>
@@ -28,13 +50,22 @@ export default function Page() {
           <h2 className="font-semibold text-gray-900">You may like</h2>
           <div className="mt-6 flex flex-col gap-3">
             {tracks.map((track) => (
-              <RowMusicCard key={track.id} track={track} />
+              <RowMusicCard
+                key={track.id}
+                track={track}
+                handleClick={handleClick}
+              />
             ))}
           </div>
         </section>
       </div>
 
-      <div className="flex-1 border-x-2 border-[#fafafa]"></div>
+      <div className="flex-1 bg-[#fafafa] p-4">
+        <h3 className="text-center text-xl font-semibold text-gray-900">
+          Now playing
+        </h3>
+        <MainMusic />
+      </div>
     </main>
   )
 }

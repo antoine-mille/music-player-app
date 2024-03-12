@@ -25,10 +25,15 @@ export async function startTrack(
   accessToken: string,
   refreshToken: string,
   trackUri: string,
-  deviceId: string
+  deviceId: string,
+  positionMs: number
 ) {
   const spotifyApi = getSpotifyWebApi(accessToken, refreshToken)
-  return await spotifyApi.play({ uris: [trackUri], device_id: deviceId })
+  return await spotifyApi.play({
+    uris: [trackUri],
+    device_id: deviceId,
+    position_ms: positionMs,
+  })
 }
 
 /**
@@ -64,4 +69,22 @@ export async function getAvailableDevice(
     return currentDevice.id
   }
   return devices[0].id
+}
+
+/**
+ * Get the current playback time of the user's active device
+ * @param accessToken User's access token
+ * @param refreshToken User's refresh token
+ * @returns The current playback time in milliseconds
+ */
+export async function getCurrentPlaybackTime(
+  accessToken: string,
+  refreshToken: string
+) {
+  const spotifyApi = getSpotifyWebApi(accessToken, refreshToken)
+  const playback = await spotifyApi.getMyCurrentPlaybackState()
+  if (playback.statusCode !== 200) {
+    return 0
+  }
+  return playback.body.progress_ms || 0
 }

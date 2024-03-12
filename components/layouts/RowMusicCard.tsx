@@ -1,16 +1,22 @@
+"use client"
+
 import { millisecondsToMinutesSeconds } from "@/lib/utils"
 import { MusicImage } from "../MusicImage"
 
 type RowMusicCardProps = {
   track: SpotifyApi.TrackObjectFull
+  handleClick: (track: SpotifyApi.TrackObjectFull) => void
 }
 
-const RowMusicCard = ({ track }: RowMusicCardProps) => {
+const RowMusicCard = ({ track, handleClick }: RowMusicCardProps) => {
   const releaseYear = track.album.release_date.split("-")[0]
   const formattedDuration = millisecondsToMinutesSeconds(track.duration_ms)
 
   return (
-    <div className="flex max-h-[42px] w-full cursor-pointer items-center">
+    <div
+      className="flex max-h-[42px] w-full cursor-pointer items-center"
+      onClick={() => handleClick(track)}
+    >
       <MusicImage
         track={track}
         width={42}
