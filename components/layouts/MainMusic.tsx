@@ -1,27 +1,14 @@
 "use client"
 
 import { MusicImage, MusicLikeIcon, MusicSlider, PlusIcon } from "@/components"
-import { usePlaybackTime } from "@/hooks/use-playback-time"
-import { useTrack } from "@/hooks/use-track"
 import { useTrackStore } from "@/stores/track.store"
 
 const MainMusic = () => {
   const track = useTrackStore((state) => state.track)
 
-  const { playTrack } = useTrack()
-
-  const playbackTime = usePlaybackTime()
-
   if (!track) {
     // ToDo: Update this to a better UI
     return null
-  }
-
-  // Change the playback time of the track when the slider is moved
-  const handleSliderChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = +event.target.value
-    const newTime = (value / 100) * track.duration_ms
-    playTrack(track, newTime)
   }
 
   return (
@@ -43,11 +30,7 @@ const MainMusic = () => {
       </div>
 
       <div className="w-full max-w-[24rem]">
-        <MusicSlider
-          currentTime={playbackTime}
-          duration={track.duration_ms}
-          handleSliderChange={handleSliderChange}
-        />
+        <MusicSlider track={track} />
       </div>
     </div>
   )

@@ -72,19 +72,19 @@ export async function getAvailableDevice(
 }
 
 /**
- * Get the current playback time of the user's active device
+ * Check if the user is currently playing music
  * @param accessToken User's access token
  * @param refreshToken User's refresh token
- * @returns The current playback time in milliseconds
+ * @returns A boolean indicating if the user is playing music
  */
-export async function getCurrentPlaybackTime(
+export async function checkIfIsCurrentlyPlaying(
   accessToken: string,
   refreshToken: string
 ) {
   const spotifyApi = getSpotifyWebApi(accessToken, refreshToken)
   const playback = await spotifyApi.getMyCurrentPlaybackState()
   if (playback.statusCode !== 200) {
-    return 0
+    return false
   }
-  return playback.body.progress_ms || 0
+  return playback.body.is_playing
 }

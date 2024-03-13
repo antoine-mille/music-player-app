@@ -1,30 +1,70 @@
-import { getCurrentPlaybackTime } from "@/lib/spotify"
+import { checkIfIsCurrentlyPlaying } from "@/lib/spotify"
 import { useSession } from "next-auth/react"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
+import { useTrackStore } from "@/stores/track.store"
 
 const usePlaybackTime = () => {
   const { data: session } = useSession()
 
-  const [playbackTime, setPlaybackTime] = useState(0)
+  // Get the playback time from the store
+  const playbackTime = useTrackStore((state) => state.playbackTime)
+  // Get the setPlaybackTime function from the store
+  const setPlaybackTime = useTrackStore((state) => state.setPlaybackTime)
 
+  // Get the current track from the store
+  const track = useTrackStore((state) => state.track)
+
+  // Get the isPlaying state from the store
+  const isPlaying = useTrackStore((state) => state.isPlaying)
+  // Get the setIsPlaying function from the store
+  const setIsPlaying = useTrackStore((state) => state.setIsPlaying)
+
+  // Resync the playback time on first mount
   useEffect(() => {
-    const fetchPlaybackTime = async () => {
-      if (!session) {
-        console.error("No session")
-        return
-      }
-      const { accessToken, refreshToken } = session.token
-      const currentTime = await getCurrentPlaybackTime(
-        accessToken,
-        refreshToken
-      )
-      setPlaybackTime(currentTime)
+    console.log("usePlaybackTime")
+  }, [])
+
+  // Reset the playback time when it's done
+  useEffect(() => {
+    if (!isPlaying) return
+
+    if (!track) {
+      setIsPlaying(false)
+      return
     }
 
-    const interval = setInterval(fetchPlaybackTime, 1000)
+    if (playbackTime >= track.duration_ms) setPlaybackTime(0)
+  }, [isPlaying, playbackTime, setIsPlaying, setPlaybackTime, track])
+
+  // Check if the track is still playing
+  useEffect(() => {
+    if (!isPlaying || !session) return
+    const checkIfIsPlaying = async () => {
+      if (!track) setIsPlaying(false)
+
+      const { accessToken, refreshToken } = session.token
+      const success = await checkIfIsCurrentlyPlaying(accessToken, refreshToken)
+      if (!success) setIsPlaying(false)
+    }
+
+    const interval = setInterval(checkIfIsPlaying, 1000)
 
     return () => clearInterval(interval)
-  }, [session])
+  }, [isPlaying, session, setIsPlaying, track])
+
+  // Update the playback time every second
+  useEffect(() => {
+    if (!isPlaying) {
+      setPlaybackTime(0)
+      return
+    }
+
+    const interval = setInterval(() => {
+      setPlaybackTime(playbackTime + 1000)
+    }, 1000)
+
+    return () => clearInterval(interval)
+  }, [isPlaying, playbackTime, setPlaybackTime])
 
   return playbackTime
 }

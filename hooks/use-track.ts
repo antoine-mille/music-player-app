@@ -46,18 +46,14 @@ const useTrack = () => {
    */
   const stopTrack = async () => {
     if (!session) {
-      console.error("No session")
-      return
+      return false
     }
     try {
       const { accessToken, refreshToken } = session.token
       const response = await pauseTrack(accessToken, refreshToken)
-      if (response.statusCode !== 204) {
-        console.error("Error pausing track", response)
-        return
-      }
+      return response.statusCode === 204
     } catch (error) {
-      console.error("Error pausing track", error)
+      return false
     }
   }
 

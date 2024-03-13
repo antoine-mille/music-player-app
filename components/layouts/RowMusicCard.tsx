@@ -24,8 +24,12 @@ const RowMusicCard = ({ track, handleClick }: RowMusicCardProps) => {
         className="size-[42px]"
       />
       <div className="pl-2">
-        <p className="text-sm font-medium text-gray-900">{track.name}</p>
-        <p className="text-sm text-gray-800">{track.artists[0].name}</p>
+        <p className="max-w-[10.5rem] truncate text-sm font-medium text-gray-900">
+          {track.name}
+        </p>
+        <p className="max-w-[10.5rem] truncate text-sm text-gray-800">
+          {track.artists[0].name}
+        </p>
       </div>
       <div className="ml-auto text-right">
         <p className="text-sm font-medium text-gray-900">{formattedDuration}</p>
