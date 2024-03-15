@@ -88,3 +88,21 @@ export async function checkIfIsCurrentlyPlaying(
   }
   return playback.body.is_playing
 }
+
+/**
+ * Get the current playback time of the user
+ * @param accessToken
+ * @param refreshToken
+ * @returns
+ */
+export async function getCurrentPlaybackTime(
+  accessToken: string,
+  refreshToken: string
+) {
+  const spotifyApi = getSpotifyWebApi(accessToken, refreshToken)
+  const playback = await spotifyApi.getMyCurrentPlaybackState()
+  if (playback.statusCode !== 200) {
+    return 0
+  }
+  return playback.body.progress_ms || 0
+}

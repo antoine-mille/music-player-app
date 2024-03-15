@@ -1,4 +1,7 @@
-import { checkIfIsCurrentlyPlaying } from "@/lib/spotify"
+import {
+  checkIfIsCurrentlyPlaying,
+  getCurrentPlaybackTime,
+} from "@/lib/spotify"
 import { useSession } from "next-auth/react"
 import { useEffect } from "react"
 import { useTrackStore } from "@/stores/track.store"
@@ -21,8 +24,25 @@ const usePlaybackTime = () => {
 
   // Resync the playback time on first mount
   useEffect(() => {
-    console.log("usePlaybackTime")
-  }, [])
+    if (!isPlaying || !session) return
+
+    if (!track) {
+      setIsPlaying(false)
+      return
+    }
+
+    // Fetch the current playback time from the Spotify API and set it to the store
+    const fetchCurrentPlaybackTime = async () => {
+      const { accessToken, refreshToken } = session.token
+      const playbackTime = await getCurrentPlaybackTime(
+        accessToken,
+        refreshToken
+      )
+      setPlaybackTime(playbackTime)
+    }
+
+    fetchCurrentPlaybackTime()
+  }, [isPlaying, session, setIsPlaying, setPlaybackTime, track])
 
   // Reset the playback time when it's done
   useEffect(() => {
