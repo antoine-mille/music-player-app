@@ -9,18 +9,14 @@ import { useTrackStore } from "@/stores/track.store"
 const usePlaybackTime = () => {
   const { data: session } = useSession()
 
-  // Get the playback time from the store
-  const playbackTime = useTrackStore((state) => state.playbackTime)
-  // Get the setPlaybackTime function from the store
-  const setPlaybackTime = useTrackStore((state) => state.setPlaybackTime)
-
-  // Get the current track from the store
-  const track = useTrackStore((state) => state.track)
-
-  // Get the isPlaying state from the store
-  const isPlaying = useTrackStore((state) => state.isPlaying)
-  // Get the setIsPlaying function from the store
-  const setIsPlaying = useTrackStore((state) => state.setIsPlaying)
+  const [playbackTime, setPlaybackTime, track, isPlaying, setIsPlaying] =
+    useTrackStore((state) => [
+      state.playbackTime,
+      state.setPlaybackTime,
+      state.track,
+      state.isPlaying,
+      state.setIsPlaying,
+    ])
 
   // Resync the playback time on first mount
   useEffect(() => {

@@ -15,17 +15,13 @@ const useTrack = () => {
     track: SpotifyApi.TrackObjectFull,
     positionMs: number = 0
   ) => {
-    if (!session) {
-      return false
-    }
+    if (!session) return false
     try {
       const { accessToken, refreshToken } = session.token
 
       // Get the user's active device
       const deviceId = await getAvailableDevice(accessToken, refreshToken)
-      if (!deviceId) {
-        return false
-      }
+      if (!deviceId) return false
 
       const response = await startTrack(
         accessToken,
@@ -45,9 +41,7 @@ const useTrack = () => {
    * @returns void
    */
   const stopTrack = async () => {
-    if (!session) {
-      return false
-    }
+    if (!session) return false
     try {
       const { accessToken, refreshToken } = session.token
       const response = await pauseTrack(accessToken, refreshToken)

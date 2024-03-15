@@ -17,11 +17,8 @@ const LeftSidebar = () => {
 
   const handleClick = () => {
     // If the user is signed in, sign them out. If they are not signed in, sign them in.
-    if (session) {
-      signOut()
-    } else {
-      signIn("spotify")
-    }
+    if (session) signOut()
+    else signIn("spotify")
   }
 
   // Navigation links

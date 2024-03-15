@@ -6,16 +6,16 @@ import { useTrack } from "@/hooks/use-track"
 import { useTrackStore } from "@/stores/track.store"
 
 export default function Page() {
-  // Fetch 4 saved tracks from the user
+  // Fetch 10 saved tracks from the user
   const tracks = useSavedTracks(10)
 
   // Get the playTrack function from the useTrack hook
   const { playTrack } = useTrack()
 
-  // Get the setTrack function from the track store
-  const setTrack = useTrackStore((state) => state.setTrack)
-  // Get the setIsPlaying function from the track store
-  const setIsPlaying = useTrackStore((state) => state.setIsPlaying)
+  const [setTrack, setIsPlaying] = useTrackStore((state) => [
+    state.setTrack,
+    state.setIsPlaying,
+  ])
 
   const handleClick = (track: SpotifyApi.TrackObjectFull) => {
     // Stop the current track

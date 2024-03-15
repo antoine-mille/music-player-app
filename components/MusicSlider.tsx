@@ -16,14 +16,14 @@ const RangeInput = ({ track, value }: RangeInputProps) => {
   const [wantedTime, setWantedTime] = useState(0)
 
   const { playTrack } = useTrack()
-  const setIsPlaying = useTrackStore((state) => state.setIsPlaying)
-  const setPlaybackTime = useTrackStore((state) => state.setPlaybackTime)
+  const [setIsPlaying, setPlaybackTime] = useTrackStore((state) => [
+    state.setIsPlaying,
+    state.setPlaybackTime,
+  ])
 
   // Change the playback time of the track when the slider is moved
   const handleSliderChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (isDown) {
-      setWantedTime(+event.target.value)
-    }
+    if (isDown) setWantedTime(+event.target.value)
   }
 
   // Change the playback time of the track when the slider is released

@@ -7,9 +7,7 @@ type UserIconProps = {
 
 const UserIcon = ({ src, username }: UserIconProps) => {
   // Change rendering to use a placeholder image
-  if (!src || !username) {
-    return null
-  }
+  if (!src || !username) return null
 
   return (
     <Image
