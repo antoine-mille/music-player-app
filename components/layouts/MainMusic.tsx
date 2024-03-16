@@ -1,6 +1,13 @@
 "use client"
 
-import { MusicImage, MusicLikeIcon, MusicSlider, PlusIcon } from "@/components"
+import {
+  MusicImage,
+  MusicLikeIcon,
+  MusicPlayerRow,
+  MusicSlider,
+  PlusIcon,
+  RepeatIcon,
+} from "@/components"
 import { useTrackStore } from "@/stores/track.store"
 
 const MainMusic = () => {
@@ -17,10 +24,10 @@ const MainMusic = () => {
         track={track}
         width={300}
         height={300}
-        className="size-[300px]"
+        className="size-[18.75rem]"
       />
 
-      <div className="flex w-[300px] items-center justify-between">
+      <div className="flex w-[18.75rem] items-center justify-between">
         <PlusIcon />
         <div className="flex flex-col items-center">
           <p className="text-xl font-semibold text-gray-900">{track.name}</p>
@@ -31,6 +38,9 @@ const MainMusic = () => {
 
       <div className="w-full max-w-[24rem]">
         <MusicSlider track={track} />
+      </div>
+      <div className="w-full max-w-[24rem]">
+        <MusicPlayerRow />
       </div>
     </div>
   )

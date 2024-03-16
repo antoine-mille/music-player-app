@@ -1,6 +1,6 @@
 "use client"
 
-import { MainMusic, MusicCard, RowMusicCard } from "@/components"
+import { MainMusic, MusicCard, MusicCardRow } from "@/components"
 import { useSavedTracks } from "@/hooks/use-saved-tracks"
 import { useTrack } from "@/hooks/use-track"
 import { useTrackStore } from "@/stores/track.store"
@@ -57,7 +57,7 @@ export default function Page() {
           <h2 className="font-semibold text-gray-900">You may like</h2>
           <div className="mt-6 flex flex-col gap-3">
             {tracks.map((track) => (
-              <RowMusicCard
+              <MusicCardRow
                 key={track.id}
                 track={track}
                 handleClick={handleClick}
@@ -67,7 +67,7 @@ export default function Page() {
         </section>
       </div>
 
-      <div className="flex-1 bg-[#fafafa] p-4">
+      <div className="flex-1 border-x bg-[#fafafa] p-4">
         <h3 className="text-center text-xl font-semibold text-gray-900">
           Now playing
         </h3>

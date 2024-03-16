@@ -8,7 +8,7 @@ type RowMusicCardProps = {
   handleClick: (track: SpotifyApi.TrackObjectFull) => void
 }
 
-const RowMusicCard = ({ track, handleClick }: RowMusicCardProps) => {
+const MusicCardRow = ({ track, handleClick }: RowMusicCardProps) => {
   const releaseYear = track.album.release_date.split("-")[0]
   const formattedDuration = millisecondsToMinutesSeconds(track.duration_ms)
 
@@ -39,4 +39,4 @@ const RowMusicCard = ({ track, handleClick }: RowMusicCardProps) => {
   )
 }
 
-export { RowMusicCard }
+export { MusicCardRow }
